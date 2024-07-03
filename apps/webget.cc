@@ -19,6 +19,7 @@ void get_URL( const string& host, const string& path )
   TCPSocket mysocket;
   /*
     host = cs144.keithw.org
+    
     path = /hello
   */
   mysocket.connect(Address(host,"http"));
