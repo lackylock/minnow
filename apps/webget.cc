@@ -5,6 +5,8 @@
 #include <span>
 #include <string>
 
+
+
 using namespace std;
 
 void get_URL( const string& host, const string& path )
@@ -27,12 +29,12 @@ void get_URL( const string& host, const string& path )
   mysocket.shutdown(SHUT_WR);
 
   while (!mysocket.eof()) {
-      cout<<mysocket.read();
+      string buf;
+      mysocket.read(buf);
+      cout << buf;
   }
 
   mysocket.close();//为什么不可以只关闭SHUT_RD来充当close?SHUT_WR已经关闭了
-  cerr << "Function called: get_URL(" << host << ", " << path << ").\n";
-  cerr << "Warning: get_URL() has not been implemented yet.\n";
 }
 
 int main( int argc, char* argv[] )
