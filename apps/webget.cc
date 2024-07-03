@@ -1,26 +1,15 @@
 #include "socket.hh"
 
 #include <cstdlib>
+#include <format>
 #include <iostream>
 #include <span>
 #include <string>
-
-
 
 using namespace std;
 
 void get_URL( const string& host, const string& path )
 {
-  /*
-    GET /hello HTTP/1.1
-    HOST: cs144.keithw.org
-    Connection: close
-  */
-  /*
-    host = cs144.keithw.org
-    
-    path = /hello
-  */
   TCPSocket sck {};
   sck.connect( Address( host, "http" ) );
   sck.write( format( "GET {} HTTP/1.1\r\n"
@@ -70,3 +59,4 @@ int main( int argc, char* argv[] )
 
   return EXIT_SUCCESS;
 }
+
