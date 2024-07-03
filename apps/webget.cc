@@ -10,22 +10,20 @@ using namespace std;
 
 void get_URL( const string& host, const string& path )
 {
-  TCPSocket sck {};
-  sck.connect( Address( host, "http" ) );
-  sck.write( format( "GET {} HTTP/1.1\r\n"
-                     "Host: {}\r\n"
-                     "Connection: close\r\n"
-                     "\r\n",
-                     path,
-                     host ) );
-  sck.shutdown( SHUT_WR );
-  std::string buf;
-  while ( !sck.eof() ) {
-    sck.read( buf );
-    std::cout << buf;
-    buf.clear();
+  Address addr( host, "http" );
+  TCPSocket http_tcp;
+  http_tcp.connect( addr );
+  http_tcp.write( "GET " + path + " HTTP/1.1\r\n" );
+  http_tcp.write( "HOST: " + host + "\r\n" );
+  http_tcp.write( "Connection: close\r\n" );
+  http_tcp.write( "\r\n" );
+  string buffer;
+
+  while ( !http_tcp.eof() ){
+    http_tcp.read( buffer );
+    std::cout << buffer;
   }
-  sck.close();
+  http_tcp.close();
 }
 
 int main( int argc, char* argv[] )
