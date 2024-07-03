@@ -16,26 +16,27 @@ void get_URL( const string& host, const string& path )
     HOST: cs144.keithw.org
     Connection: close
   */
-  TCPSocket mysocket;
   /*
     host = cs144.keithw.org
     
     path = /hello
   */
-  mysocket.connect(Address(host,"http"));
-  mysocket.write("GET "+path+" HTTP/1.1"+"\r\n"); //系统输入的path自带第一个分割符/，不用自己加
-  mysocket.write("Host: "+host+"\r\n");
-  mysocket.write("Connection: close\r\n");
-  mysocket.write("\r\n");
-  mysocket.shutdown(SHUT_WR);
-
-  while (!mysocket.eof()) {
-      string buf;
-      mysocket.read(buf);
-      cout << buf;
+  TCPSocket sck {};
+  sck.connect( Address( host, "http" ) );
+  sck.write( format( "GET {} HTTP/1.1\r\n"
+                     "Host: {}\r\n"
+                     "Connection: close\r\n"
+                     "\r\n",
+                     path,
+                     host ) );
+  sck.shutdown( SHUT_WR );
+  std::string buf;
+  while ( !sck.eof() ) {
+    sck.read( buf );
+    std::cout << buf;
+    buf.clear();
   }
-
-  mysocket.close();//为什么不可以只关闭SHUT_RD来充当close?SHUT_WR已经关闭了
+  sck.close();
 }
 
 int main( int argc, char* argv[] )
