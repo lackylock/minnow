@@ -52,7 +52,7 @@ void Reader::pop( uint64_t len )
 {
   if (bytes_buffered() == 0)
     return;
-  int len = min( bytes_buffered(), len );
+  len = min( bytes_buffered(), len );
   buf_.erase(0, len);
   bytes_popped_cnt_ += len;
 }
